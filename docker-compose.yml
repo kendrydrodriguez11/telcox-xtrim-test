@@ -1,0 +1,41 @@
+services:
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: telcox_root
+      MYSQL_DATABASE: telcox_db
+      MYSQL_USER: telcox_user
+      MYSQL_PASSWORD: telcox_pass
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ptelcox_root"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: mysql+pymysql://telcox_user:telcox_pass@db/telcox_db
+      SECRET_KEY: telcox-docker-secret-change-me
+      FLASK_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:

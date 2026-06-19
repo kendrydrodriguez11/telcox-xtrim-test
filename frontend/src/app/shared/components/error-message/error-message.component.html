@@ -1,0 +1,13 @@
+<div class="error-wrapper fade-in">
+  <div class="error-icon-wrap">
+    <i class="bi bi-exclamation-triangle error-icon"></i>
+  </div>
+  <h5 class="error-title">No se pudo cargar la información</h5>
+  <p class="error-detail">{{ message }}</p>
+  @if (hasRetryListener) {
+    <button class="btn-retry" (click)="retry.emit()">
+      <i class="bi bi-arrow-clockwise"></i>
+      Intentar nuevamente
+    </button>
+  }
+</div>

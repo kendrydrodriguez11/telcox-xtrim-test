@@ -1,0 +1,48 @@
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes dash {
+  0% { stroke-dasharray: 1, 125; stroke-dashoffset: 0; }
+  50% { stroke-dasharray: 90, 125; stroke-dashoffset: -35; }
+  100% { stroke-dasharray: 90, 125; stroke-dashoffset: -124; }
+}
+
+.spinner-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  gap: 20px;
+}
+
+.spinner-ring {
+  width: 48px;
+  height: 48px;
+}
+
+.spinner-svg {
+  width: 100%;
+  height: 100%;
+  animation: rotate 1.5s linear infinite;
+}
+
+.spinner-track {
+  stroke: var(--border);
+}
+
+.spinner-arc {
+  stroke: var(--primary);
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+.spinner-message {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin: 0;
+  letter-spacing: 0.01em;
+}

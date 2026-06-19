@@ -1,0 +1,83 @@
+<div class="dashboard-page">
+  <div class="container-xl py-4 px-3 px-md-4">
+
+    <div class="page-header">
+      <div class="header-text">
+        <h1 class="page-title">Panel de Consumo</h1>
+        <p class="page-subtitle">Visualiza el estado de tu cuenta en tiempo real</p>
+      </div>
+      @if (selectedCustomer() && !loadingCustomers()) {
+        <button
+          class="btn-refresh"
+          (click)="refreshDashboard()"
+          [disabled]="loadingDashboard()"
+          aria-label="Actualizar información"
+        >
+          <i class="bi bi-arrow-clockwise" [class.spin]="loadingDashboard()"></i>
+          <span>Actualizar</span>
+        </button>
+      }
+    </div>
+
+    @if (loadingCustomers()) {
+      <app-loading-spinner message="Cargando información del sistema..." />
+    } @else if (error() && customers().length === 0) {
+      <app-error-message [message]="error()!" (retry)="ngOnInit()" />
+    } @else {
+      <div class="row g-4">
+
+        <div class="col-12 col-xl-3">
+          <app-customer-selector
+            [customers]="customers()"
+            [selectedCustomer]="selectedCustomer()"
+            (customerSelected)="selectCustomer($event)"
+          />
+        </div>
+
+        <div class="col-12 col-xl-9">
+          @if (dashboard(); as data) {
+            <div class="content-area" [class.refreshing]="loadingDashboard()">
+              <app-customer-header [dashboard]="data" />
+
+              <div class="row g-3 mt-0">
+                <div class="col-12 col-md-4">
+                  <app-balance-card [balance]="data.balance" />
+                </div>
+                <div class="col-12 col-md-4">
+                  <app-usage-card
+                    title="Consumo de Datos"
+                    [used]="data.data_consumption.used_gb"
+                    [total]="data.data_consumption.total_gb"
+                    [percentage]="data.data_consumption.percentage"
+                    unit="GB"
+                    icon="bi-wifi"
+                    [periodStart]="data.data_consumption.period_start"
+                    [periodEnd]="data.data_consumption.period_end"
+                  />
+                </div>
+                <div class="col-12 col-md-4">
+                  <app-usage-card
+                    title="Minutos de Voz"
+                    [used]="data.minute_consumption.used"
+                    [total]="data.minute_consumption.total"
+                    [percentage]="data.minute_consumption.percentage"
+                    unit="min"
+                    icon="bi-telephone"
+                    [periodStart]="data.minute_consumption.period_start"
+                    [periodEnd]="data.minute_consumption.period_end"
+                  />
+                </div>
+              </div>
+            </div>
+          } @else if (initialLoading()) {
+            <app-loading-spinner message="Obteniendo datos de consumo..." />
+          } @else if (error()) {
+            <app-error-message [message]="error()!" (retry)="refreshDashboard()" />
+          }
+        </div>
+
+      </div>
+    }
+
+  </div>
+</div>

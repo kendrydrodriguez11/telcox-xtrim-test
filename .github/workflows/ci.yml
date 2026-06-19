@@ -1,0 +1,40 @@
+name: CI
+
+"on":
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install -r backend/requirements.txt
+
+      - name: Ejecutar pruebas
+        run: pytest backend/tests/ -v
+
+  frontend:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Instalar dependencias
+        run: npm ci --prefix frontend
+
+      - name: Ejecutar pruebas
+        run: npm test --prefix frontend -- --watch=false --browsers=ChromeHeadless

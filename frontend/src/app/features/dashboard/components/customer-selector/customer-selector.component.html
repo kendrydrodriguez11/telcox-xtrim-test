@@ -1,0 +1,48 @@
+<div class="selector-card card">
+
+  <!-- Header desktop -->
+  <div class="selector-header">
+    <span class="selector-title">Clientes</span>
+    <span class="selector-badge">{{ customers.length }}</span>
+  </div>
+
+  <!-- Header mobile: muestra el cliente activo y el toggle -->
+  <button class="selector-mobile-header" (click)="toggle()" [attr.aria-expanded]="expanded()">
+    @if (selectedCustomer) {
+      <div class="mobile-selected">
+        <div class="item-avatar avatar-active">{{ selectedCustomer.name | nameInitials }}</div>
+        <div class="item-info">
+          <span class="item-name">{{ selectedCustomer.name }}</span>
+          <span class="item-plan">{{ selectedCustomer.plan_name }}</span>
+        </div>
+      </div>
+    } @else {
+      <span class="mobile-placeholder">Seleccionar cliente</span>
+    }
+    <i class="bi mobile-chevron" [class.bi-chevron-up]="expanded()" [class.bi-chevron-down]="!expanded()"></i>
+  </button>
+
+  <!-- Lista (siempre visible en desktop, colapsable en mobile) -->
+  <div class="selector-list" [class.list-open]="expanded()">
+    @for (customer of customers; track customer.id) {
+      <button
+        class="selector-item"
+        [class.active]="selectedCustomer?.id === customer.id"
+        (click)="select(customer)"
+        [attr.aria-pressed]="selectedCustomer?.id === customer.id"
+      >
+        <div class="item-avatar" [class.avatar-active]="selectedCustomer?.id === customer.id">
+          {{ customer.name | nameInitials }}
+        </div>
+        <div class="item-info">
+          <span class="item-name">{{ customer.name }}</span>
+          <span class="item-plan">{{ customer.plan_name }}</span>
+        </div>
+        @if (selectedCustomer?.id === customer.id) {
+          <i class="bi bi-check-circle-fill item-check"></i>
+        }
+      </button>
+    }
+  </div>
+
+</div>

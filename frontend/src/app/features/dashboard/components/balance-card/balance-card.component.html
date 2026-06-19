@@ -1,0 +1,30 @@
+<div class="balance-card card fade-in">
+  <div class="card-body">
+    <div class="card-top">
+      <span class="card-label">Saldo disponible</span>
+      <div class="card-icon">
+        <i class="bi bi-wallet2"></i>
+      </div>
+    </div>
+
+    <div class="amount-display">
+      <span class="currency-symbol">{{ balance.currency }}</span>
+      <span class="amount-value">{{ balance.amount | number:'1.2-2' }}</span>
+    </div>
+
+    <div class="card-footer-info">
+      <i class="bi bi-clock-history"></i>
+      <span>Saldo actual de cuenta</span>
+    </div>
+  </div>
+
+  <div class="card-panel">
+    <div class="panel-row">
+      <div class="panel-status">
+        <span class="status-dot"></span>
+        <span class="status-label">Cuenta activa</span>
+      </div>
+      <span class="panel-currency">{{ balance.currency }}</span>
+    </div>
+  </div>
+</div>

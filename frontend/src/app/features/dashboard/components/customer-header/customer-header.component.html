@@ -1,0 +1,29 @@
+<div class="header-card card fade-in">
+  <div class="header-body">
+    <div class="avatar-wrap">
+      <div class="avatar">{{ initials }}</div>
+    </div>
+
+    <div class="customer-info">
+      <div class="info-top">
+        <h2 class="customer-name">{{ dashboard.customer.name }}</h2>
+        <span class="plan-tag">{{ dashboard.customer.plan_name }}</span>
+      </div>
+
+      <div class="meta-list">
+        <div class="meta-item">
+          <i class="bi bi-credit-card-2-front"></i>
+          <span>{{ dashboard.customer.account_number }}</span>
+        </div>
+        <div class="meta-item">
+          <i class="bi bi-phone"></i>
+          <span>{{ dashboard.customer.phone_number }}</span>
+        </div>
+        <div class="meta-item">
+          <i class="bi bi-envelope"></i>
+          <span>{{ dashboard.customer.email }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="usage-card card fade-in" [class]="'usage-card--' + statusClass">
+  <div class="card-body">
+    <div class="card-top">
+      <span class="card-label">{{ title }}</span>
+      <div class="card-icon" [class]="'icon--' + statusClass">
+        <i class="bi {{ icon }}"></i>
+      </div>
+    </div>
+
+    <div class="gauge-wrapper">
+      <svg viewBox="0 0 120 120" class="gauge-svg" aria-hidden="true">
+        <circle
+          cx="60" cy="60"
+          [attr.r]="RADIUS"
+          fill="none"
+          stroke-width="6"
+          class="gauge-track"
+        />
+        <circle
+          cx="60" cy="60"
+          [attr.r]="RADIUS"
+          fill="none"
+          stroke-width="6"
+          stroke-linecap="round"
+          class="gauge-progress"
+          [class]="'gauge-progress--' + statusClass"
+          [style.stroke-dasharray]="CIRCUMFERENCE"
+          [style.stroke-dashoffset]="strokeDashoffset"
+        />
+      </svg>
+      <div class="gauge-center">
+        <span class="gauge-pct">{{ percentage | number:'1.0-1' }}%</span>
+        <span class="gauge-sub">usado</span>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-label">Usado</span>
+        <span class="stat-value">{{ used | number:'1.0-2' }} <small>{{ unit }}</small></span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Total</span>
+        <span class="stat-value">{{ total | number:'1.0-2' }} <small>{{ unit }}</small></span>
+      </div>
+      <div class="stat-item stat-item--full">
+        <span class="stat-label">Disponible</span>
+        <span class="stat-value" [class]="'text--' + statusClass">
+          {{ remaining | number:'1.0-2' }} <small>{{ unit }}</small>
+        </span>
+      </div>
+    </div>
+
+    <div class="period-row">
+      <i class="bi bi-calendar3"></i>
+      <span>{{ periodStart | date:'d MMM' }} — {{ periodEnd | date:'d MMM, y' }}</span>
+    </div>
+  </div>
+
+  <div class="card-panel">
+    <div class="panel-row">
+      <div class="panel-remaining">
+        <span class="panel-dot" [class]="'dot--' + statusClass"></span>
+        <span class="panel-value">{{ remaining | number:'1.0-2' }} {{ unit }}</span>
+        <span class="panel-hint">restantes</span>
+      </div>
+      <span class="panel-badge" [class]="'badge--' + statusClass">{{ statusLabel }}</span>
+    </div>
+    <div class="panel-bar-track">
+      <div class="panel-bar-fill" [class]="'fill--' + statusClass" [style.width.%]="percentage"></div>
+    </div>
+    <div class="panel-period">
+      <i class="bi bi-calendar-check"></i>
+      <span>Vence el {{ periodEnd | date:'d MMM, y' }}</span>
+    </div>
+  </div>
+</div>
